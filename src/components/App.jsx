@@ -1,4 +1,8 @@
+import { Searchbar } from "./Searchbar/Searchbar";
 export const App = () => {
+  const handler = (value) => {
+    console.log(value)
+  }
   return (
     <div
       style={{
@@ -11,7 +15,7 @@ export const App = () => {
         color: '#010101',
       }}
     >
-      React homework template
+      <Searchbar onSubmit={handler}/>
     </div>
   );
 };
