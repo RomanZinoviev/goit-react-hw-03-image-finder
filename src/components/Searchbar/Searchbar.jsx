@@ -8,9 +8,12 @@ export class Searchbar extends Component {
         this.setState({ value: e.target.value })
     };
     submitHandler = (e) => {
-        e.preventDefault();
-        this.props.onSubmit(this.state.value);
-        console.log(this.state.value)
+      e.preventDefault();
+      if (this.state.value.trim() === "") {
+        alert("Write something")
+        return
+      }
+        this.props.onSubmit(this.state.value);        
         this.reset()
     };
     reset() {
