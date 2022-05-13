@@ -1,9 +1,14 @@
 import { Component } from 'react';
+import s from "../Searchbar/Searchbar.module.css";
+import PropTypes from 'prop-types';
 
 export class Searchbar extends Component {
     state = {
       value:""
-    };
+  };
+  static propTypes = {
+    onSubmit:PropTypes.func
+  }
     inputHandler = (e) => {
         this.setState({ value: e.target.value })
     };
@@ -21,14 +26,14 @@ export class Searchbar extends Component {
     };
   render() {
     return (
-      <header className="searchbar">
-        <form className="form">
-          <button type="submit" className="button" onClick={this.submitHandler}>
-            <span className="button-label">Search</span>
+      <header className={s.searchbar}>
+        <form className={s.form}>
+          <button type="submit" className={s.button} onClick={this.submitHandler}>
+            <span className={s.buttonLabel}>Search</span>
           </button>
 
           <input
-            className="input"
+            className={s.input}
                     type="text"
                     value={this.state.value}
                     onChange={this.inputHandler}

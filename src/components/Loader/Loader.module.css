@@ -1,12 +1,14 @@
 .loader {
-    width: 48px;
-    height: 48px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     display: inline-block;
     position: relative;
     border: 2px solid #FF3D00;
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .loader::after {
@@ -16,8 +18,8 @@
     left: 4px;
     top: 4px;
     border: 2px solid green;
-    width: 12px;
-    height: 12px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
 }
 
