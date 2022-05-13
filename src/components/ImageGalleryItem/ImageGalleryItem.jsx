@@ -1,7 +1,7 @@
-export const ImageGalleryItem = ({webformatURL}) => {
+export const ImageGalleryItem = ({webformatURL, largeImageURL}) => {
     return (
         <li className="gallery-item" >
-  <img src={webformatURL} alt="cat" />
+  <img src={webformatURL} alt={largeImageURL} />
 </li>
     )
 }
