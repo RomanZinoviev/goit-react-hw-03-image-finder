@@ -19,7 +19,7 @@ export class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     const API_KEY = '25728701-c83c0487db4f1d7b899af3be5';
     const API_GET = 'https://pixabay.com/api/?';
-    const { imgArray, imgName, page } = this.state;
+    const { imgName, page } = this.state;
     if (prevState.imgName !== imgName) {
       this.setState({ status: 'pending' });
       fetch(
@@ -43,23 +43,9 @@ export class App extends Component {
           return this.setState({ imgArray: res.hits, status: 'resolved' });
         })
         .catch(err => this.setState({ error: err, status: 'rejected' }));
-    }
-    if (prevState.page !== page) {
-      this.setState({ status: 'pending' });
-      axios
-        .get(
-          `${API_GET}q=${imgName}&key=${API_KEY}&page=${page}&image_type=photo&orientation=horizontal&per_page=12`
-        )
-        .then(res => {
-          const { total, hits } = res.data;
-          if (total !== imgArray.length) {
-            return this.setState(prev => ({ imgArray: prev.imgArray.concat(hits), status:"resolved" }) );
-          }
-          return this.setState({ status: 'resolveWithoutButton' });
-        })
-        .catch(err => this.setState({ error: err, status: 'rejected' }));
-    }
-  }
+      this.setState(prev => ({ page: prev.page + 1 }));
+    };    
+  };
   reset() {
     this.setState({ page: 1 });
   }
@@ -73,7 +59,22 @@ export class App extends Component {
     });    
   };
   handleButton = () => {
-    this.setState(prevState => ({ page: (prevState.page += 1) }));
+    const API_KEY = '25728701-c83c0487db4f1d7b899af3be5';
+    const API_GET = 'https://pixabay.com/api/?';
+   this.setState(prev => ({ page: prev.page + 1 })); 
+    const { imgArray, imgName, page } = this.state;       
+      axios
+        .get(
+          `${API_GET}q=${imgName}&key=${API_KEY}&page=${page}&image_type=photo&orientation=horizontal&per_page=12`
+        )
+        .then(res => {
+          const { total, hits } = res.data;          
+          if (total !== imgArray.length) {
+            return this.setState(prev => ({ imgArray: [...prev.imgArray,...hits], status:"resolved" }) );
+          }
+          return this.setState({ status: 'resolveWithoutButton' });
+        })
+        .catch(err => this.setState({ error: err, status: 'rejected' }));
   };
   handleForModal = e => {
     this.setState({ largeImg: e.target.alt });
@@ -111,9 +112,7 @@ export class App extends Component {
           <Searchbar onSubmit={this.submitHandler} />
           <ImageGallery array={imgArray} onClick={this.handleForModal} />
           {imgArray && <Button handleButton={this.handleButton} />}
-          {showModal && (
-            <Modal largeImg={largeImg} onClose={this.toggleModal} />
-          )}
+          {showModal &&<Modal largeImg={largeImg} onClose={this.toggleModal} />}
         </div>
       );
     }
@@ -122,9 +121,8 @@ export class App extends Component {
         <div className={s.app}>
           <Searchbar onSubmit={this.submitHandler} />
           <ImageGallery array={imgArray} onClick={this.handleForModal} />
-          {showModal && (
-            <Modal largeImg={largeImg} onClose={this.toggleModal} />
-          )}
+          <p style={{ textAlign: 'center', fontSize: 30 }}>На этом пока ВСЕ!</p>
+          {showModal &&<Modal largeImg={largeImg} onClose={this.toggleModal} />}
         </div>
       );
     }
