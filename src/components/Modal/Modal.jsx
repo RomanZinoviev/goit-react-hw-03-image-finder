@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 const modalRoot = document.querySelector("#modal-root")
 export class Modal extends Component {
   static propTypes = {
-    onClose: PropTypes.func,
-    largeImg: PropTypes.string
+    onClose: PropTypes.func.isRequired,
+    largeImg: PropTypes.string.isRequired
   };
   componentDidMount() {
     window.addEventListener("keydown", this.handleKeyDown)
