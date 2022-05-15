@@ -40,7 +40,7 @@ export class App extends Component {
               status: 'rejected',
             });
           }
-          return this.setState({ imgArray: res.hits, status: 'resolved' });
+          return this.setState({ imgArray: res.hits.map(({id, webformatURL, largeImageURL })=>({id,webformatURL,largeImageURL})), status: 'resolved' });
         })
         .catch(err => this.setState({ error: err, status: 'rejected' }));
       this.setState(prev => ({ page: prev.page + 1 }));
@@ -61,6 +61,7 @@ export class App extends Component {
   handleButton = () => {
     const API_KEY = '25728701-c83c0487db4f1d7b899af3be5';
     const API_GET = 'https://pixabay.com/api/?';
+    this.setState({ status: 'pending' });
    this.setState(prev => ({ page: prev.page + 1 })); 
     const { imgArray, imgName, page } = this.state;       
       axios
@@ -70,7 +71,7 @@ export class App extends Component {
         .then(res => {
           const { total, hits } = res.data;          
           if (total !== imgArray.length) {
-            return this.setState(prev => ({ imgArray: [...prev.imgArray,...hits], status:"resolved" }) );
+            return this.setState(prev => ({ imgArray: [...prev.imgArray,...hits.map(({id, webformatURL, largeImageURL })=>({id,webformatURL,largeImageURL}))], status:"resolved" }) );
           }
           return this.setState({ status: 'resolveWithoutButton' });
         })
@@ -93,6 +94,7 @@ export class App extends Component {
       return (
         <div className={s.app}>
           <Searchbar onSubmit={this.submitHandler} />
+          {imgArray&&<ImageGallery array={imgArray} onClick={this.handleForModal} />}
           <Loader />
           <p style={{ textAlign: 'center', fontSize: 30 }}>Loading...</p>
         </div>
